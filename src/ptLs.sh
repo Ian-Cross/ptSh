@@ -40,7 +40,7 @@ if [[ ! -z $arg ]];
     then a=$arg
 fi
 
-LS="$(ls -Ql$arg --group-directories-first --time-style=+"" 2>/dev/null)"
+LS="$(ls -l$arg | sort -k1 -r)"
 
 getColumnSize
 
@@ -57,13 +57,19 @@ i=0
 actualChar=0
 actualColumn=0
 
+
 while read -r line; do
+    # Break the line into individual words
     read -a words <<< $line
-    if [[ $(echo $line | wc -w) == 2 ]]; then continue; fi
+
+    # ignore the first line: just contains a count
+    declare -i wc=$(echo $line | wc -w)
+    if [[ $wc == 2 ]]; then continue; fi
 
     link=false
 
-    if [[ ${words[0]} == "d"* ]]; then
+    # determin if file, folder, or link
+    if [[ ${words[0]:0:1} == "d"* ]]; then
         filename="${DIR_PREFIX_ESCAPE_CODES}${DIR_PREFIX}\x1B[0m${DIR_NAME_ESCAPE_CODES}"
         prefixLength=${#DIR_PREFIX}
     elif [[ ${words[0]} == "l"* ]];then
@@ -75,27 +81,19 @@ while read -r line; do
         prefixLength=${#FILE_PREFIX}
     fi
 
-    nameLength=$((${#words[5]}-1))
-    filename="$filename${words[5]:1}"
 
-    nameWords=0
-    if [[ ${words[5]} == "\""* ]]; then
-        while [[ ${words[$((5+nameWords))]} != *"\"" ]]; do
-            nameWords=$((nameWords+1))
-            filename="$filename ${words[$((5+nameWords))]}"
-            nameLength=$((nameLength+1+${#words[$((5+nameWords))]}))
-        done
-    fi
-    
-    nameLength=$((nameLength-1))
-    filename="${filename::-1}"
+    # Isolate the filename and length
+    nameLength=$((${#words[@]:8}))
+    filename="$filename ${words[@]:8}"
+
+    # close the colour sandwhich
     filename="$filename\x1B[0m"
     
     actualChar=$((nameLength+prefixLength))
     
     if [[ $1 == *"l"* ]]; then
         echo -ne $filename
-        align        
+        align
         echo -n "${words[0]} ${words[2]} ${words[3]}"
 
         if $link; then
@@ -114,5 +112,6 @@ while read -r line; do
             actualChar=0
         fi
     fi
+
 done <<<$(echo "$LS")
 echo
