@@ -4,26 +4,34 @@ all:
 	@echo Run \'make install\'
 
 install:
-	git rev-parse --short HEAD > $(ver)
-	mkdir -p ~/.local/share/ptSh
-	cp src/config ~/.local/share/ptSh/config
-	mkdir -p ~/.local/bin
-	cp src/set_aliases.sh ~/.local/bin/ptSh_set_aliases
-	cp LICENSE ~/.local/share/ptSh/LICENSE
-	cp src/logo.txt ~/.local/share/ptSh/logo.txt
-	cp src/ptLs.sh ~/.local/bin/ptls
-	cp src/ptPwd.sh ~/.local/bin/ptpwd
-	cp src/ptMkdir.sh ~/.local/bin/ptmkdir
-	cp src/ptTouch.sh ~/.local/bin/pttouch
-	cp src/ptCp.sh ~/.local/bin/ptcp
-	cp src/ptRm.sh ~/.local/bin/ptrm
-	cp src/ptsh.sh ~/.local/bin/ptsh
-	mkdir -p ~/.config
-	mkdir -p ~/.config/ptSh
-	cp src/config ~/.config/ptSh/config
-	echo "Version: cloned from " | tee ~/.local/share/ptSh/version.txt
-	cat $(ver) | tee -a ~/.local/share/ptSh/version.txt
-	~/.local/bin/ptsh
+	# List revision history from git
+	# git rev-parse --short HEAD > $(ver)
+
+	# Make the directory
+	mkdir -p ~/DevLib/ptSh
+
+	cp src/config ~/DevLib/ptSh/config
+	mkdir -p ~/DevLib/ptSh/bin
+
+	cp src/set_aliases.sh ~/DevLib/ptsh/bin/ptSh_set_aliases
+	cp LICENSE ~/DevLib/ptSh/LICENSE
+	cp src/logo.txt ~/DevLib/ptSh/logo.txt
+	cp src/ptLs.sh ~/DevLib/ptsh/bin/ptls
+	cp src/ptPwd.sh ~/DevLib/ptsh/bin/ptpwd
+	cp src/ptMkdir.sh ~/DevLib/ptsh/bin/ptmkdir
+	cp src/ptTouch.sh ~/DevLib/ptsh/bin/pttouch
+	cp src/ptCp.sh ~/DevLib/ptsh/bin/ptcp
+	cp src/ptRm.sh ~/DevLib/ptsh/bin/ptrm
+	cp src/ptsh.sh ~/DevLib/ptsh/bin/ptsh
+
+	mkdir -p ~/DevLib/ptsh/.config
+	mkdir -p ~/DevLib/ptsh/.config/ptSh
+	cp src/config ~/DevLib/ptsh/.config/ptSh/config
+
+	# echo "Version: cloned from " | tee ~/.local/share/ptSh/version.txt
+	# cat $(ver) | tee -a ~/.local/share/ptSh/version.txt
+	
+	export PATH=$$PATH:~/DevLib/ptsh/bin/ptsh
 
 uninstall:
 	rm -rf ~/.local/share/ptSh

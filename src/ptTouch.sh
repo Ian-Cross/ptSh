@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-source ~/.local/share/ptSh/config
-test -f ~/.config/ptSh/config && source ~/.config/ptSh/config
+source ~/DevLib/ptSh/config
+test -f ~/DevLib/ptsh/.config/ptSh/config && source ~/DevLib/ptsh/.config/ptSh/config
 
 if [[ -z $1 ]] || [[ $1 == "--help" ]]; then
     cat <<< "$(touch --help)"

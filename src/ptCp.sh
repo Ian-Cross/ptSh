@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-source ~/.local/share/ptSh/config
-test -f ~/.config/ptSh/config && source ~/.config/ptSh/config
+source ~/DevLib/ptSh/config
+test -f ~/DevLib/ptsh/.config/ptSh/config && source ~/Devlib/ptsh/.config/ptSh/config
 
 RESULT=$(cp "$@" 2>&1)
 
