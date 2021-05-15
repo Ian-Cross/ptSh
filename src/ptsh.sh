@@ -10,7 +10,7 @@ echo -e "\x1B[0m"
 echo 
 while read -r line; do
     echo -n "$line "
-done <<<$(cat ~/DevLib/ptSh/version.txt)
+done <<<$(cat ~/DevLib/ptSh/VERSION)
 
 echo
 echo
